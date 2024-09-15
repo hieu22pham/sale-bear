@@ -20,3 +20,22 @@ module.exports.index = async (req, res) => {
     })
   }
 }
+
+module.exports.create = async (req, res) => {
+  try {
+    console.log(req.body)
+    const product = new Product(req.body)
+    const data = await product.save()
+
+    res.json({
+      code: 200,
+      message: "Tạo thành công!",
+      data: data
+    })
+  } catch (e) {
+    res.json({
+      code: 400,
+      message: "Lỗi!"
+    })
+  }
+}
