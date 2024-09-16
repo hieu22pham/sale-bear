@@ -42,15 +42,26 @@ module.exports.create = async (req, res) => {
 
 module.exports.detail = async (req, res) => {
   try {
-    console.log(req.body)
-    const product = new Product(req.body)
-    const data = await product.save()
+    const slug = req.params.slug
+    console.log(slug)
 
-    res.json({
-      code: 200,
-      message: "Tạo thành công!",
-      data: data
+    const data = await Product.findOne({
+      deleted: false,
+      slug: slug
     })
+
+    if (data) {
+      res.json({
+        code: 200,
+        message: "Lấy thông tin thành công!",
+        data: data
+      })
+    } else {
+      res.json({
+        code: 404,
+        message: "Không tồn tại sản phẩm này!"
+      })
+    }
   } catch (e) {
     res.json({
       code: 400,
