@@ -63,10 +63,11 @@ module.exports.detail = async (req, res) => {
       })
     }
   } catch (e) {
-    res.json({
-      code: 400,
-      message: "Lỗi!"
-    })
+    console.error("Error occurred:", e);
+    res.status(500).json({
+      code: 500,
+      message: "Lỗi server!"
+    });
   }
 }
 
