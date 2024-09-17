@@ -71,5 +71,36 @@ module.exports.detail = async (req, res) => {
   }
 }
 
+module.exports.delete = async (req, res) => {
+  try {
+    const slug = req.params.slug
+    console.log(slug)
+
+    const data = await Product.updateOne({ slug: slug },
+      {
+        deleted: true,
+      }
+    )
+
+    if (data) {
+      res.json({
+        code: 200,
+        message: "Xóa sản phẩm thành công!",
+      })
+    } else {
+      res.json({
+        code: 404,
+        message: "Không tồn tại sản phẩm này!"
+      })
+    }
+  } catch (e) {
+    console.error("Error occurred:", e);
+    res.status(500).json({
+      code: 500,
+      message: "Lỗi server!"
+    });
+  }
+}
+
 
 
