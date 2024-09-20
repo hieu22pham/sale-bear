@@ -13,7 +13,7 @@ module.exports.requireAuth = async (req, res, next) => {
 
       if (!user) {
         res.json({
-          code: 400,
+          code: 401,
           message: "Token không hợp lệ!"
         })
 
