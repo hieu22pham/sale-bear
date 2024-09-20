@@ -18,22 +18,29 @@ module.exports.index = async (req, res) => {
   const records = await Account.find(find).select("-password -token").limit(objectPagination.limitItem)
     .skip(objectPagination.skip)
 
-  if (records) {
-    for (const record of records) {
-      const role = await Role.findOne(
-        {
-          _id: record.role_id,
-          deleted: false
-        })
+  if (records && records.length > 0) {
+    // Dùng map và Promise.all để cải thiện hiệu suất
+    const enrichedRecords = await Promise.all(records.map(async (record) => {
+      // Chuyển đổi record thành object thông thường
+      const recordObject = record.toObject();
 
-      record.role = role
-    }
+      // Tìm role tương ứng
+      const role = await Role.findOne({
+        _id: record.role_id,
+        deleted: false
+      });
+
+      // Gán giá trị role vào record
+      recordObject.role = role ? role : null; // Nếu không tìm thấy role, gán null
+
+      return recordObject; // Trả về record đã được thêm thuộc tính role
+    }));
 
     res.json({
       code: 200,
       message: "Lấy danh sách tài khoản thành công!",
-      data: records
-    })
+      accounts: enrichedRecords
+    });
   } else {
     res.json({
       code: 400,
