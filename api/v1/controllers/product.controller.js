@@ -6,11 +6,19 @@ module.exports.index = async (req, res) => {
   }
 
   const products = await Product.find(find)
+  const newProducts = []
+
+  products.map((item) => {
+    if (item.title != null) {
+      newProducts.push(item)
+    }
+  })
+
   if (products.length > 0) {
     res.json({
       code: 200,
       message: "Lấy toàn bộ sản phẩm thành công!",
-      products: products
+      products: newProducts
     })
   }
   else {
