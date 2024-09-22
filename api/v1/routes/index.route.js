@@ -8,7 +8,7 @@ module.exports = (app) => {
 
   app.use(version + '/products', authMiddleWare.requireAuth, productRouter)
   app.use(version + '/roles', authMiddleWare.requireAuth, roleRouter)
-  app.use(version + '/accounts', authMiddleWare.requireAuth, accountRouter)
+  app.use(version + '/accounts', accountRouter)
   app.use(version + '/error404', errorRouter)
 
 }

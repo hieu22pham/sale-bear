@@ -4,7 +4,9 @@ module.exports.requireAuth = async (req, res, next) => {
   try {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(" ")
-      console.log(token[1])
+      console.log()
+      token = token[1]
+      console.log(token)
 
       const user = await Account.findOne({
         token: token,

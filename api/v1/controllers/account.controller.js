@@ -1,6 +1,7 @@
 const Account = require("../models/account.model")
 const Role = require("../models/roles.model")
 const paginationHelper = require("../helpers/pagination")
+const md5 = require("md5")
 
 module.exports.index = async (req, res) => {
   let find = {
@@ -85,5 +86,6 @@ module.exports.login = async (req, res) => {
   res.json({
     code: 200,
     message: "Đăng nhập thành công!",
+    token: token
   })
 }
