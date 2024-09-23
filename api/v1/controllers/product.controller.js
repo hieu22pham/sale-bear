@@ -53,16 +53,16 @@ module.exports.detail = async (req, res) => {
     const slug = req.params.slug
     console.log(slug)
 
-    const data = await Product.findOne({
+    const product = await Product.findOne({
       deleted: false,
       slug: slug
     })
 
-    if (data) {
+    if (product) {
       res.json({
         code: 200,
         message: "Lấy thông tin thành công!",
-        data: data
+        product: product
       })
     } else {
       res.json({
