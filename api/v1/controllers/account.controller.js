@@ -87,7 +87,6 @@ module.exports.verifyAccount = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-
   
 }
 
