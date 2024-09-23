@@ -48,7 +48,6 @@ module.exports.index = async (req, res) => {
       message: "Không tồn tại tài khoản nào!",
     })
   }
-
 }
 
 module.exports.verifyAccount = async (req, res) => {
