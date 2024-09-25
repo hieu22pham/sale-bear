@@ -87,7 +87,22 @@ module.exports.verifyAccount = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-  
+  try {
+    console.log(req.body)
+    const account = new Account(req.body)
+    const data = await account.save()
+
+    res.json({
+      code: 200,
+      message: "Tạo thành công!",
+      data: data
+    })
+  } catch (e) {
+    res.json({
+      code: 400,
+      message: "Lỗi!"
+    })
+  }
 }
 
 module.exports.login = async (req, res) => {
