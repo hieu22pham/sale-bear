@@ -88,6 +88,11 @@ module.exports.verifyAccount = async (req, res) => {
 
 module.exports.create = async (req, res) => {
   try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: "Vui lòng gửi kèm token!" });
+    }
+
     console.log(req.body)
     const account = new Account(req.body)
     const data = await account.save()
