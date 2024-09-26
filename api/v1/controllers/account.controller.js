@@ -32,9 +32,9 @@ module.exports.index = async (req, res) => {
       });
 
       // Gán giá trị role vào record
-      recordObject.role = role ? role : null; // Nếu không tìm thấy role, gán null
+      recordObject.role = role ? role : null;
 
-      return recordObject; // Trả về record đã được thêm thuộc tính role
+      return recordObject;
     }));
 
     res.json({
@@ -106,6 +106,39 @@ module.exports.create = async (req, res) => {
     })
   }
 }
+
+
+module.exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id
+    console.log(id)
+
+    const data = await Account.updateOne({ _id: id },
+      {
+        deleted: true,
+      }
+    )
+
+    if (data) {
+      res.json({
+        code: 200,
+        message: "Xóa sản phẩm thành công!",
+      })
+    } else {
+      res.json({
+        code: 404,
+        message: "Không tồn tại sản phẩm này!"
+      })
+    }
+  } catch (e) {
+    console.error("Error occurred:", e);
+    res.status(500).json({
+      code: 500,
+      message: "Lỗi server!"
+    });
+  }
+}
+
 
 module.exports.login = async (req, res) => {
   const email = req.body.email
