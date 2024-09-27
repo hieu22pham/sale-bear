@@ -84,6 +84,8 @@ module.exports.updatePermissions = async (req, res) => {
     const roles = []
     for (const item of permissions) {
       console.log("item: ", item)
+      console.log("item per: ", item.permissions)
+
       const data = await Role.updateOne({ _id: item.id }, { permissions: item.permissions })
       roles.push(data)
     }
