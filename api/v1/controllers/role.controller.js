@@ -55,7 +55,7 @@ module.exports.permissions = async (req, res) => {
     }
 
     const roles = await Role.find(find);
-    console.log(roles)
+    console.log('roles: ', roles)
 
     if (roles) {
       res.json({
@@ -79,19 +79,20 @@ module.exports.permissions = async (req, res) => {
 
 module.exports.updatePermissions = async (req, res) => {
   try {
-    const permissions = req.body
+    const permissions = req.body.permissions
     console.log("permissions: ", permissions)
-    // const roles = []
-    // for (const item of permissions) {
-    //   const data = await Role.updateOne({ _id: item.id }, { permissions: item.permissions })
-    //   roles.push(data)
-    // }
+    const roles = []
+    for (const item of permissions) {
+      console.log("item: ", item)
+      const data = await Role.updateOne({ _id: item.id }, { permissions: item.permissions })
+      roles.push(data)
+    }
 
-    // res.json({
-    //   code: 200,
-    //   message: "Cập nhật permission thành công!",
-    //   roles: roles
-    // })
+    res.json({
+      code: 200,
+      message: "Cập nhật permission thành công!",
+      roles: roles
+    })
   } catch (e) {
     res.status(500).json({
       code: 500,
