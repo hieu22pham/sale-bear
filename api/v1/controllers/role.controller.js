@@ -48,3 +48,58 @@ module.exports.create = async (req, res) => {
   }
 }
 
+module.exports.permissions = async (req, res) => {
+  try {
+    const find = {
+      deleted: false
+    }
+
+    const roles = await Role.find(find);
+    console.log(roles)
+
+    if (roles) {
+      res.json({
+        code: 200,
+        message: "Lấy toàn bộ quyền thành công!",
+        roles: roles
+      })
+    } else {
+      res.json({
+        code: 400,
+        message: "Không tồn tại quyền nào!",
+      })
+    }
+  } catch (e) {
+    res.status(500).json({
+      code: 500,
+      message: "Lỗi server!"
+    });
+  }
+}
+
+module.exports.updatePermissions = async (req, res) => {
+  try {
+    const permissions = req.body
+    console.log("permissions: ", permissions)
+    // const roles = []
+    // for (const item of permissions) {
+    //   const data = await Role.updateOne({ _id: item.id }, { permissions: item.permissions })
+    //   roles.push(data)
+    // }
+
+    // res.json({
+    //   code: 200,
+    //   message: "Cập nhật permission thành công!",
+    //   roles: roles
+    // })
+  } catch (e) {
+    res.status(500).json({
+      code: 500,
+      message: "Lỗi server!"
+    });
+  }
+
+
+}
+
+

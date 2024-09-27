@@ -140,6 +140,84 @@ module.exports.delete = async (req, res) => {
 }
 
 
+module.exports.bin = async (req, res) => {
+  let find = {
+    deleted: true
+  }
+
+  const countProduct = await Account.countDocuments(find)
+
+  let objectPagination = paginationHelper({
+    currentPage: 1,
+    limitItem: 4
+  }, req.query, countProduct
+  )
+
+  const records = await Account.find(find).select("-password -token").limit(objectPagination.limitItem)
+    .skip(objectPagination.skip)
+
+  if (records && records.length > 0) {
+    // Dùng map và Promise.all để cải thiện hiệu suất
+    const enrichedRecords = await Promise.all(records.map(async (record) => {
+      // Chuyển đổi record thành object thông thường
+      const recordObject = record.toObject();
+
+      // Tìm role tương ứng
+      const role = await Role.findOne({
+        _id: record.role_id,
+        deleted: false
+      });
+
+      // Gán giá trị role vào record
+      recordObject.role = role ? role : null;
+
+      return recordObject;
+    }));
+
+    res.json({
+      code: 200,
+      message: "Lấy danh sách tài khoản thành công!",
+      accounts: enrichedRecords
+    });
+  } else {
+    res.json({
+      code: 400,
+      message: "Không tồn tại tài khoản nào!",
+    })
+  }
+}
+
+module.exports.restore = async (req, res) => {
+  try {
+    const id = req.params.id
+    console.log(id)
+
+    const data = await Account.updateOne({ _id: id },
+      {
+        deleted: false,
+      }
+    )
+
+    if (data) {
+      res.json({
+        code: 200,
+        message: "Khôi phục sản phẩm thành công!",
+      })
+    } else {
+      res.json({
+        code: 404,
+        message: "Không tồn tại sản phẩm này!"
+      })
+    }
+  } catch (e) {
+    console.error("Error occurred:", e);
+    res.status(500).json({
+      code: 500,
+      message: "Lỗi server!"
+    });
+  }
+}
+
 module.exports.login = async (req, res) => {
   const email = req.body.email
   const password = req.body.password

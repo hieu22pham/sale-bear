@@ -10,6 +10,8 @@ const controller = require("../controllers/account.controller")
 router.get("/", authMiddleWare.requireAuth, controller.index)
 router.post("/create", authMiddleWare.requireAuth, upload.single("avatar"), uploadCloud.upload, controller.create)
 router.patch("/delete/:id", authMiddleWare.requireAuth, controller.delete)
+router.get("/bin", authMiddleWare.requireAuth, controller.bin)
+router.patch("/restore/:id", authMiddleWare.requireAuth, controller.restore)
 
 router.post("/login", controller.login)
 router.get('/verify', authMiddleWare.requireAuth, controller.verifyAccount);
