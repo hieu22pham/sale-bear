@@ -76,33 +76,49 @@ module.exports.permissions = async (req, res) => {
     });
   }
 }
-
 module.exports.updatePermissions = async (req, res) => {
   try {
-    const permissions = req.body.permissions
-    console.log("permissions: ", permissions)
-    const roles = []
-    for (const item of permissions) {
-      console.log("item: ", item)
-      console.log("item per: ", item.permissions)
+    const permissions = req.body; // Lưu dữ liệu từ req.body
+    console.log('data: ', permissions); // Kiểm tra dữ liệu
 
-      const data = await Role.updateOne({ _id: item.id }, { permissions: item.permissions })
-      roles.push(data)
+    const roles = []; // Mảng để lưu các role đã cập nhật
+
+    for (const item of permissions) {
+      console.log("item: ", item);
+      console.log("item permissions: ", item.permissions);
+      console.log("item _id: ", item._id); // Sử dụng _id
+
+      // Cập nhật permissions trong cơ sở dữ liệu
+      const save = await Role.updateOne(
+        { _id: item._id }, // Sử dụng _id
+        { permissions: item.permissions }
+      );
+
+      // Kiểm tra kết quả cập nhật
+      if (save.nModified === 1) {
+        const role = await Role.findOne({ _id: item._id }); // Tìm lại nếu cần
+        roles.push(role);
+      } else {
+        console.log("No changes made for item with id:", item._id);
+      }
     }
+
+    console.log('roles data: ', roles);
 
     res.json({
       code: 200,
       message: "Cập nhật permission thành công!",
       roles: roles
-    })
+    });
   } catch (e) {
+    console.error("Error updating permissions:", e); // Ghi lỗi để dễ theo dõi
     res.status(500).json({
       code: 500,
       message: "Lỗi server!"
     });
   }
+};
 
 
-}
 
 

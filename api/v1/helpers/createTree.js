@@ -6,10 +6,10 @@ function createTree(arr, parentId = "") {
     if (item.parent_id === parentId) {
       count++
       const newItem = item
-      newItem.index = count;
+      item.index = count;
       const children = createTree(arr, item.id)
       if (children.length > 0) {
-        newItem.children = children
+        item.children = children
       }
 
       tree.push(newItem)
