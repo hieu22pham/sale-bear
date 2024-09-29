@@ -1,4 +1,4 @@
-const Error404 = require("../models/error404.model")
+const Error404 = require("../../models/error404.model")
 
 module.exports.index = async (req, res) => {
   try {

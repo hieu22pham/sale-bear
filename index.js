@@ -1,6 +1,6 @@
 const express = require("express")
 const database = require("./config/database")
-const routesApiVer1 = require("./api/v1/routes/index.route")
+const routesApiVer1 = require("./api/v1/admin/routes/index.route")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")

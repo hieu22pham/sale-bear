@@ -1,4 +1,4 @@
-const Account = require("../models/account.model");
+const Account = require("../../models/account.model");
 
 module.exports.requireAuth = async (req, res, next) => {
   try {
