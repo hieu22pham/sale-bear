@@ -28,3 +28,19 @@ module.exports.index = async (req, res) => {
     })
   }
 }
+
+module.exports.productsFeature = async (req, res) => {
+  const productsFeature = await Product.find({
+    deleted: false,
+    featured: 1
+  });
+
+  if (productsFeature) {
+    console.log("productsFeature data: ", JSON.stringify(productsFeature, null, 2)); // Log formatted output for better readability
+    res.json({
+      code: 200,
+      message: "Lấy toàn bộ sản phẩm thành công!",
+      productsFeature: productsFeature
+    });
+  }
+}

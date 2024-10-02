@@ -1,7 +1,6 @@
 const ProductCategory = require("../../models/product-category.model")
 const Product = require("../../models/product.model")
 const productCategoryHelper = require("../helpers/product-category")
-const productsHelper = require("../helpers/products")
 
 module.exports.index = async (req, res) => {
   let find = {
@@ -10,16 +9,19 @@ module.exports.index = async (req, res) => {
 
   const records = await ProductCategory.find(find);
 
+
+
   // Create a tree structure from the records
   if (records) {
     console.log("newRecords data: ", JSON.stringify(records, null, 2)); // Log formatted output for better readability
     res.json({
       code: 200,
       message: "Lấy toàn bộ sản phẩm thành công!",
-      categories: records
+      categories: records,
     });
   }
 };
+
 
 module.exports.getProductsInCategory = async (req, res) => {
   var products = []
@@ -49,14 +51,12 @@ module.exports.getProductsInCategory = async (req, res) => {
     }
   }
 
-  const newProducts = productsHelper.priceNewProducts(products)
-
   // Create a tree structure from the records
   if (products.length > 0) {
     res.json({
       code: 200,
       message: "Lấy toàn bộ sản phẩm thành công!",
-      data: newProducts
+      data: products
     });
   } else {
     res.json({
