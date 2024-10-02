@@ -8,6 +8,6 @@ module.exports = (app) => {
 
   app.use(version + '/products', productRouter)
   app.use(version + '/products-category', ProductCategoryRouter)
-  app.use(version + '/UserRouter', ProductCategoryRouter)
+  app.use(version + '/users', UserRouter)
 
 }
