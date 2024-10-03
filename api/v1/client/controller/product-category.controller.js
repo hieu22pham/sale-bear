@@ -8,10 +8,6 @@ module.exports.index = async (req, res) => {
   };
 
   const records = await ProductCategory.find(find);
-
-
-
-  // Create a tree structure from the records
   if (records) {
     console.log("newRecords data: ", JSON.stringify(records, null, 2)); // Log formatted output for better readability
     res.json({
@@ -48,20 +44,27 @@ module.exports.getProductsInCategory = async (req, res) => {
         stock: { $ne: 0 },
         deleted: false,
       }).sort({ position: "desc" })
-    }
-    if (products.length > 0) {
-      res.json({
-        code: 200,
-        message: "Lấy toàn bộ sản phẩm thành công!",
-        data: products,
-        pageTitle: category.title
-      });
+
+      if (products.length > 0) {
+        res.json({
+          code: 200,
+          message: "Lấy toàn bộ sản phẩm thành công!",
+          data: products,
+          pageTitle: category.title
+        });
+      } else {
+        res.json({
+          code: 400,
+          message: "Không tồn tại sản phẩm nào!",
+          pageTitle: category.title
+        });
+      }
     } else {
       res.json({
         code: 400,
-        message: "Không tồn tại sản phẩm nào!",
-        pageTitle: category.title
+        message: "Không tồn tại danh mục này!"
       });
     }
+
   }
 }

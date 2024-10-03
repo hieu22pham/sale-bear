@@ -29,6 +29,36 @@ module.exports.index = async (req, res) => {
   }
 }
 
+module.exports.detail = async (req, res) => {
+  const slug = req.params.slug
+
+  if (slug) {
+    console.log("slug", slug)
+
+    const product = await Product.findOne({
+      slug: slug,
+      deleted: false,
+      status: "active"
+    })
+
+    console.log(product)
+    if (product) {
+      res.json({
+        code: 200,
+        message: "Lấy toàn bộ sản phẩm thành công!",
+        data: product,
+        pageTitle: product.title
+      });
+    } else {
+      res.json({
+        code: 400,
+        message: "Không tồn tại sản phẩm này!",
+      });
+    }
+  }
+
+}
+
 module.exports.productsFeature = async (req, res) => {
   const productsFeature = await Product.find({
     deleted: false,
