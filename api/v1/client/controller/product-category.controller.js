@@ -49,19 +49,19 @@ module.exports.getProductsInCategory = async (req, res) => {
         deleted: false,
       }).sort({ position: "desc" })
     }
-  }
-
-  // Create a tree structure from the records
-  if (products.length > 0) {
-    res.json({
-      code: 200,
-      message: "Lấy toàn bộ sản phẩm thành công!",
-      data: products
-    });
-  } else {
-    res.json({
-      code: 400,
-      message: "Không tồn tại sản phẩm nào!",
-    });
+    if (products.length > 0) {
+      res.json({
+        code: 200,
+        message: "Lấy toàn bộ sản phẩm thành công!",
+        data: products,
+        pageTitle: category.title
+      });
+    } else {
+      res.json({
+        code: 400,
+        message: "Không tồn tại sản phẩm nào!",
+        pageTitle: category.title
+      });
+    }
   }
 }
