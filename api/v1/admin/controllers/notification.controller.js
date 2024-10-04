@@ -1,6 +1,6 @@
 const Notification = require('../../models/notifications.model')
 
-module.exports.index = async (req, res) => {
+module.exports.QuickOrder = async (req, res) => {
   try {
     const notifications = await Notification.find({ type: 'quickOrder' });
     res.json(notifications);
