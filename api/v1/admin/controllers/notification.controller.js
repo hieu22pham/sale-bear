@@ -12,5 +12,20 @@ module.exports.GetQuickOrder = async (req, res) => {
 }
 
 module.exports.PostQuickOrder = async (req, res) => {
+  try {
+    console.log(req.body)
+    const notification = new Notification(req.body)
+    const data = await notification.save()
 
+    res.json({
+      code: 200,
+      message: "Tạo thành công!",
+      data: data
+    })
+  } catch (e) {
+    res.json({
+      code: 400,
+      message: "Lỗi!"
+    })
+  }
 }
