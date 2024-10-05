@@ -3,7 +3,7 @@ const router = express.Router();
 
 const controller = require("../controllers/notification.controller")
 
-router.get("/getQuickOrder", controller.GetQuickOrder)
+router.get("/", controller.index)
 router.post("/postQuickOrder", controller.PostQuickOrder)
 
 module.exports = router;

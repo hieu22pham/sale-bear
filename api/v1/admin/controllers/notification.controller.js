@@ -1,13 +1,28 @@
 const Notification = require('../../models/notifications.model')
 
-module.exports.GetQuickOrder = async (req, res) => {
+module.exports.index = async (req, res) => {
   try {
-    const notifications = await Notification.find({ type: 'quickOrder' });
-    res.json(notifications);
+    const notifications = await Notification.find({ deleted: false }).sort({ created_at: -1 });
 
-
+    if (notifications) {
+      // Duyệt qua notifications và thêm thuộc tính message
+      const notificationsWithMessages = notifications.map(notification => {
+        return {
+          ...notification.toObject(), // Chuyển đổi Mongoose document thành object thông thường
+          message: `Đơn đặt hàng: <b>${notification.product}</b> từ số điện thoại: <b>${notification.phoneNumber}` // Thêm message
+        };
+      });
+      res.json({
+        code: 200,
+        message: "Lấy thông báo thành công!",
+        data: notificationsWithMessages
+      })
+    }
   } catch (error) {
-    res.status(500).send(error.message);
+    res.json({
+      code: 500,
+      message: "Lỗi server!"
+    })
   }
 }
 

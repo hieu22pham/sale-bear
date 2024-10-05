@@ -3,6 +3,7 @@ const generate = require("../admin/helpers/generate")
 
 const notificationsSchema = new mongoose.Schema(
   {
+    product: String,
     message: String,
     phoneNumber: Number,
     email: String,
