@@ -10,17 +10,19 @@ const http = require("http");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 8080; // Sử dụng PORT từ biến môi trường
+const port = process.env.PORT || 8080;
+const API_CLIENT = process.env.API_CLIENT
 
 const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Địa chỉ của client
+    origin: "https://bearcapybara.netlify.app",
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true,
   },
+  transports: ['polling'], // Chỉ sử dụng long polling thay vì WebSocket
 });
 
 // Kết nối đến cơ sở dữ liệu
@@ -35,9 +37,10 @@ database.connect()
 
 // Middleware
 app.use(bodyParser.json());
+
 app.use(cors({
-  origin: "http://localhost:3000", // Cho phép kết nối từ frontend
-  credentials: true,
+  origin: ["http://localhost:3000", API_CLIENT], // Cho phép nhiều nguồn
+  credentials: true, // Nếu bạn đang sử dụng cookie
 }));
 app.use(cookieParser());
 
