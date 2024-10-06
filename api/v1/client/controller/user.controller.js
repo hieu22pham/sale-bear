@@ -52,13 +52,12 @@ module.exports.register = async (req, res) => {
   }
 };
 
-
 module.exports.login = async (req, res) => {
-  const email = req.body.email
+  const username = req.body.username
   const password = req.body.password
 
   const user = await User.findOne({
-    email: email,
+    username: username,
     deleted: false
   })
 
