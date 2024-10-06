@@ -14,6 +14,7 @@ router.get("/bin", authMiddleWare.requireAuth, controller.bin)
 router.patch("/restore/:id", authMiddleWare.requireAuth, controller.restore)
 
 router.post("/login", controller.login)
+router.post("/checkToken", controller.checkToken)
 router.get('/verify', authMiddleWare.requireAuth, controller.verifyAccount);
 
 module.exports = router;

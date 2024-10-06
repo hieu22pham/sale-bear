@@ -252,3 +252,12 @@ module.exports.login = async (req, res) => {
     token: token
   })
 }
+
+module.exports.checkToken = async (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+
+  const user = await Account.findOne({
+    deleted: false,
+    token: token
+  })
+}
