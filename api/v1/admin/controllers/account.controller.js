@@ -255,9 +255,22 @@ module.exports.login = async (req, res) => {
 
 module.exports.checkToken = async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1];
+  console.log(token)
 
   const user = await Account.findOne({
     deleted: false,
     token: token
   })
+
+  if (user) {
+    res.json({
+      code: 200,
+      message: "Tồn tại token!",
+    })
+  } else {
+    res.json({
+      code: 400,
+      message: "Token sai!",
+    })
+  }
 }
