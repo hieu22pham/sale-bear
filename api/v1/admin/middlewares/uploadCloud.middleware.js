@@ -45,6 +45,7 @@ module.exports.upload = (req, res, next) => {
         res.status(500).send(`Error uploading file: ${error.message}`);
       }
     }
+
     upload(req);
   } else {
     next();
