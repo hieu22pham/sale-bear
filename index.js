@@ -39,7 +39,7 @@ database.connect()
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://shopcapybara.vn"], // Cho phép nhiều nguồn
+  origin: ["https://shopcapybara.vn"], // Cho phép nhiều nguồn
   credentials: true, // Nếu bạn đang sử dụng cookie
 }));
 app.use(cookieParser());
