@@ -41,6 +41,8 @@ module.exports.detail = async (req, res) => {
       status: "active"
     })
 
+    
+
     console.log(product)
     if (product) {
       res.json({

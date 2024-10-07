@@ -17,7 +17,7 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: "https://bearcapybara.netlify.app",
+    origin: "http://localhost:3000, https://shopcapybara.vn",
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true,
@@ -39,7 +39,7 @@ database.connect()
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://bearcapybara.netlify.app"], // Cho phép nhiều nguồn
+  origin: ["http://localhost:3000", "https://shopcapybara.vn"], // Cho phép nhiều nguồn
   credentials: true, // Nếu bạn đang sử dụng cookie
 }));
 app.use(cookieParser());
