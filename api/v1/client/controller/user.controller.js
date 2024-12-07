@@ -86,3 +86,58 @@ module.exports.login = async (req, res) => {
     token: token
   })
 }
+
+module.exports.verifyUser = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: "Vui lòng gửi kèm token!" });
+    }
+
+    const token = authHeader.split(" ")[1]; // 'Bearer token_value'
+
+    const user = await User.findOne({ token: token, deleted: false }).select("-password");
+
+    if (!user) {
+      res.json({code: 400, message: "Token không hợp lệ hoặc tài khoản đã bị xóa!" });
+    }
+
+    // Tìm role tương ứng của tài khoản
+    res.json({
+      code: 200,
+      message: "Xác nhận tài khoản thành công!",
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        // avatar: user.avatar,
+        email: user.email,
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Lỗi hệ thống, vui lòng thử lại sau!" });
+  }
+};
+
+module.exports.checkToken = async (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+  console.log(token)
+
+  const user = await User.findOne({
+    deleted: false,
+    token: token
+  })
+
+  if (user) {
+    res.json({
+      code: 200,
+      message: "Tồn tại token!",
+    })
+  } else {
+    res.json({
+      code: 400,
+      message: "Token sai!",
+    })
+  }
+}
